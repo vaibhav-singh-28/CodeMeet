@@ -12,7 +12,7 @@ const app = express()
 const __dirname = path.resolve()
 
 //middleware
-app.use(express.json)
+app.use(express.json())
 app.use(cors({origin:ENV.CLIENT_URL, credentials: true}))
 
 app.use("/api/inngest", serve({client: inngest, functions}) )
