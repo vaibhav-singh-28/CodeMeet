@@ -4,7 +4,7 @@ import User from "../models/User.js"
 import { deleteStreamUser, upsertStreamUser } from "./stream.js"
 
 //create a client to send and receive events
-export const inngest = new Inngest({ id: "CodeMeet"})
+export const inngest = new Inngest({ id: "CodeMeet "})
 
 const syncUser = inngest.createFunction(
     { id: "sync-user" },
