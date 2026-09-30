@@ -13,9 +13,10 @@ function App() {
 
       <Show when="signed-in">
         <SignOutButton />
+        <UserButton />
       </Show>
 
-      <UserButton />
+      
     </>
   )
 }
