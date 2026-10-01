@@ -5,6 +5,9 @@ import cors from "cors"
 import { connectDB } from "./lib/db.js"
 import { serve } from "inngest/express"
 import { inngest,functions } from "./lib/inngest.js"
+import { clerkMiddleware } from "@clerk/express"
+import { protectRoute } from "./middleware/protectRoutes.js"
+import chatRoutes from "./routes/chatRoutes.js"
 
 
 const app = express() 
@@ -14,9 +17,9 @@ const __dirname = path.resolve()
 //middleware
 app.use(express.json())
 app.use(cors({origin:ENV.CLIENT_URL, credentials: true}))
-
+app.use(clerkMiddleware()) // this adds auth field to the req object : req.auth()
 app.use("/api/inngest", serve({client: inngest, functions}) )
-
+app.use("/api/chat", chatRoutes)
 
 
 
@@ -26,6 +29,10 @@ app.get("/health", (req,res) => {
 
 app.get("/books", (req,res) => {
     res.status(200).json({msg: "This is books endpoint"})
+})
+ 
+app.get("/video-calls", protectRoute, (req,res) => {
+    res.status(200).json({message: "this is a endpoint for video-calls"})
 })
 
 //make our app ready for deployment
