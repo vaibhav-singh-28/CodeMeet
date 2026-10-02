@@ -3,17 +3,17 @@ import mongoose from "mongoose"
 const sessionSchema = new mongoose.Schema({
     problem : {
         type: String,
-        require: true,
+        required : true,
     },
     difficulty : {
         type: String,
         enum : ["easy", "medium", "hard"],
-        require : true,
+        required : true,
     },
     host : {
         type: mongoose.Schema.Types.ObjectId,
         ref : "User",
-        require : true,
+        required : true,
     },
     participant : {
         type: mongoose.Schema.Types.ObjectId,

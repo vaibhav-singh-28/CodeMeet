@@ -57,7 +57,7 @@ export async function getActiveSessions (_ ,res) {
 export async function getMyRecentSessions (req,res) {
     try {
         const userId = req.user._id
-        const sessions = await Sessions.find({status: "completed",
+        const sessions = await Session.find({status: "completed",
             $or: [{host : userId},
                 {participant: userId}]
         }).sort({createdAt: -1}).limit(20)
@@ -91,11 +91,11 @@ export async function joinSession (req,res) {
         const userId = req.user._id;
         const clerkId = req.user.clerkId;
 
-        const session = Session.findById(id);
+        const session = await Session.findById(id);
 
         if(!session) return res.status(404).json({message: "Session Not Found"});
 
-        if(!session.status !== "active") return res.status(400).json({ message: "Cannot join a completed session"})
+        if(session.status !== "active") return res.status(400).json({ message: "Cannot join a completed session"})
 
         if(session.host.toString() === userId.toString()) return res.status(400).json({ message: "Host cannot join their own sessions as a participant"})
 
@@ -104,6 +104,10 @@ export async function joinSession (req,res) {
 
         const channel = chatClient.channel("messaging" , session.callId);
         await channel.addMembers([clerkId]);
+
+        //have to check this later 
+        session.participant = userId;
+        await session.save();
         
         res.status(200).json({session})
     } catch (error) {
@@ -117,6 +121,8 @@ export async function endSession (req,res) {
         const { id } = req.params;
         const userId = req.user._id;
         const session = await Session.findById(id);
+
+        if(!session) return res.status(404).json({message: "Session Not Found"})
 
         //check if user is the host
         if(session.host.toString() !== userId.toString()){
@@ -136,6 +142,7 @@ export async function endSession (req,res) {
 
         session.status = "completed";
         await session.save();
+        res.status(200).json({session})
 
     } catch (error) {
         console.log("Error in endSession controller" , error.message)
