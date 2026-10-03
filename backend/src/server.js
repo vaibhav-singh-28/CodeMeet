@@ -9,6 +9,7 @@ import { clerkMiddleware } from "@clerk/express"
 import { protectRoute } from "./middleware/protectRoutes.js"
 import chatRoutes from "./routes/chatRoutes.js"
 import sessionRoutes from "./routes/sessionRoutes.js"
+import codeRoutes from "./routes/codeRoutes.js"
 
 const app = express() 
 
@@ -21,6 +22,7 @@ app.use(clerkMiddleware()) // this adds auth field to the req object : req.auth(
 app.use("/api/inngest", serve({client: inngest, functions}) )
 app.use("/api/chat", chatRoutes)
 app.use("/api/sessions", sessionRoutes)
+app.use("/api/code", codeRoutes)
 
 
 
@@ -55,4 +57,3 @@ const startServer = async () => {
 }
 
 startServer();
-
