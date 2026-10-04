@@ -69,21 +69,21 @@ export async function getMyRecentSessions (req,res) {
     }
 }
 
-export async function getSessionById (req,res) {
-    try {
-        const { id } = req.params
-        const session = await Session.findById(id)
-                .populate("host", "name email clerkId profileImage")
-                .populate("participant", "name email clerkId profileImage")
+export async function getSessionById(req, res) {
+  try {
+    const { id } = req.params;
 
-        if(!session) return res.status(404).json({message: "Session Not Found"})
+    const session = await Session.findById(id)
+      .populate("host", "name email profileImage clerkId")
+      .populate("participant", "name email profileImage clerkId");
 
-        res.status(200).json({session})
+    if (!session) return res.status(404).json({ message: "Session not found" });
 
-    } catch (error) {
-        console.log("Error in getSessionById controller" , error.message)
-        res.status(500).json({message: "Internal Server Error"})
-    }
+    res.status(200).json({ session });
+  } catch (error) {
+    console.log("Error in getSessionById controller:", error.message);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 }
 
 export async function joinSession (req,res) {

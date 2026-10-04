@@ -9,8 +9,11 @@ if( !apiKey || !apiSecret ){
     console.error("STREAM_API_KEY OR STREAM_API_SECRET_KEY is missing")
 }
 
-export const chatClient = StreamChat.getInstance(apiKey, apiSecret)
-export const streamClient = new StreamClient(apiKey,apiSecret)
+// Stream cleanup operations can take longer than the SDK's 3-second default.
+const streamRequestTimeout = 10000
+
+export const chatClient = StreamChat.getInstance(apiKey, apiSecret, { timeout: streamRequestTimeout })
+export const streamClient = new StreamClient(apiKey, apiSecret, { timeout: streamRequestTimeout })
 
 export const upsertStreamUser = async (userData) => {
     try {
