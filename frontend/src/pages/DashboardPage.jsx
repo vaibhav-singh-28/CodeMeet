@@ -8,7 +8,7 @@ import WelcomeSection from "../components/WelcomeSection";
 import StatsCards from "../components/StatsCards";
 import ActiveSessions from "../components/ActiveSessions";
 import RecentSessions from "../components/RecentSessions";
-import CreateSessionModal from "../components/CreateSessionModal";
+import CreateSessionModal from "../components/createSessionModal";
 
 function DashboardPage() {
   const navigate = useNavigate();
