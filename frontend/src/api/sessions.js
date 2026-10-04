@@ -17,17 +17,17 @@ export const sessionApi = {
     },
 
     getSessionById: async (id) => {
-        const response =  await axiosInstance.get(`/sessions/:${id}` , )
+        const response =  await axiosInstance.get(`/sessions/${id}`)
         return response.data
     },
 
     joinSessionById: async (id) => {
-        const response =  await axiosInstance.post(`/sessions/:${id}/join` , )
+        const response =  await axiosInstance.post(`/sessions/${id}/join`)
         return response.data
     },
 
     endSessionById: async (id) => {
-        const response =  await axiosInstance.post(`/sessions/:${id}/end` , )
+        const response =  await axiosInstance.post(`/sessions/${id}/end`)
         return response.data
     },
 
